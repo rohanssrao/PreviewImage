@@ -2,9 +2,8 @@ if (window.location.href === 'http://example.com/') {
     $('body').text('');
     $('body').append(`
         <a style="position: fixed; top: 10px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxsbackground.jpg">image broken</a>
-        <a style="position: fixed; top: 235px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="http://i.imgur.com/Q0GsdOm.png">normal image</a>
+        <a style="position: fixed; top: 235px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxbackground.jpg">normal image</a>
     `);
-    $('body').css('height', '3000px');
 }
 
 var enabled = true;

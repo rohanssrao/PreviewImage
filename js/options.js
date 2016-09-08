@@ -7,7 +7,7 @@ chrome.storage.sync.get({
 });
 
 $('#save').click(function() {
-    var maxWidth = $('#maxWidth').val();
+    var maxWidth = parseInt($('#maxWidth').val());
     var bgColor = $('#bgColor').val();
     chrome.storage.sync.set({
         maxWidth: maxWidth,
