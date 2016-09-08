@@ -1,4 +1,4 @@
-# PreviewImage
+# Preview Image
 A Chrome extension that displays a preview for an image when you hover over its hyperlink.
 # How to install
 1. Download the project
