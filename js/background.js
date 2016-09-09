@@ -8,3 +8,23 @@ function sendMsg(enabled) {
     	}
   	});
 }
+
+chrome.contextMenus.create({
+	title: 'Copy ( ͡° ͜ʖ ͡°)',
+	contexts: ['editable'],
+	onclick: function() {
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.sendMessage(tab.id, {insert: 'lenny'});
+		});
+	}
+});
+
+chrome.contextMenus.create({
+	title: 'Copy ∞',
+	contexts: ['editable'],
+	onclick: function() {
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.sendMessage(tab.id, {insert: 'infinity'});
+		});
+	}
+});
