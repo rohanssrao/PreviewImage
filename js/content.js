@@ -59,6 +59,7 @@ $('head').append(`<link rel="stylesheet" href="https://fonts.googleapis.com/css?
             max-width: ${maxWidth}px !important;
             max-height: ${maxWidth}px !important;
             border-radius: 3px !important;
+            object-fit: contain !important;
         }
 
         .previewImageDiv {
@@ -90,20 +91,6 @@ $('a:not(:has(img))').each(addImg);
 
 $('body').on('DOMNodeInserted', 'a:not(:has(img))', addImg);
 
-$.fn.inViewport = function() {
-
-    let el = this[0];
-
-    var rect = el.getBoundingClientRect();
-
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-    );
-}
-
 function lesserOf(a, b) {
     if (a < b) {
         return a;
@@ -128,13 +115,13 @@ function insert(type) {
 function addImg() {
     let that = $(this);
     let href = that.attr('href');
+    let match = /imgur\.com\/(\w{7})$/g.exec(href);
+    if (match) { href = 'https://i.imgur.com/' + match[1] + '.png'; }
 
-    if (href && href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
+    if (href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
         if (that.data('preview-added')) { return; }
         that.data('preview-added', true);
-        var imgElem = $(`<img class="previewImageImg" src="${href}" id="imgId${imgId}" style="
-
-            ">`);
+        var imgElem = $(`<img class="previewImageImg" src="${href}" id="imgId${imgId}">`);
         imgElem.on('load', function() {
             var imgElemCont = $(`<div class="previewImageDiv"><input style="
                     border-radius: 3px;
@@ -147,13 +134,13 @@ function addImg() {
                     var x = e.clientX - (imgElemCont.width() / 2);
                     if (e.clientY < imgElemCont.height() + 25) {
                         var y = e.clientY + 25;
+                        if (e.clientY + imgElemCont.height() + 25 > $(window).height()) {
+                            imgElem[0].style.setProperty('max-height', $(window).height() - e.clientY - 75 + 'px', 'important');
+                        } else {
+                            // imgElem[0].style.setProperty('max-height');                                
+                        }
                     } else {
                         var y = e.clientY - imgElemCont.height() - 25;
-                    }
-                    if (!imgElemCont.inViewport()) {
-                        imgElemCont.css('position', 'sticky');
-                    } else {
-                        imgElemCont.css('position', 'fixed');
                     }
                     imgElemCont.css('top', y + 'px');
                     imgElemCont.css('left', x + 'px');
