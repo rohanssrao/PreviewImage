@@ -3,15 +3,19 @@ if (window.location.href === 'http://example.com/') {
     $('body').append(`
         <a style="position: fixed; top: 10px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxsbackground.jpg">image broken</a>
         <a style="position: fixed; top: 235px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxbackground.jpg">normal image</a>
+        <input style="position: fixed; top: 335px; left: 50vw; transform: translateX(-50%); font-size: 20px;">
     `);
 }
 
 function copy(text) {
-    var sandbox = $('<input>').val(str).css({
-        "display": "none",
+    var lastFocused = $(":focus");
+    var temp = $('<input>').val(text).css({
+        "opacity": "0",
         "z-index": "-99"
     }).appendTo('body').select();
     document.execCommand('copy');
+    temp.remove();
+    lastFocused.focus();
 }
 
 var enabled = true;
