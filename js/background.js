@@ -1,13 +1,26 @@
 var extEnabled = true;
 
 function sendMsg(enabled) {
-	extEnabled = enabled;
   	chrome.tabs.getAllInWindow(null, function(tabs) {
     	for (var i = tabs.length - 1; i >= 0; i--) {
       		chrome.tabs.sendMessage(tabs[i].id, {enabled: enabled});
     	}
   	});
 }
+
+chrome.browserAction.onClicked.addListener(function() {
+	extEnabled = !extEnabled;
+	sendMsg(extEnabled);
+	if (extEnabled) {
+		chrome.browserAction.setIcon({
+		    path: '../img/favicon-128.png'
+		});
+	} else {
+		chrome.browserAction.setIcon({
+		    path: '../img/favicon-128-bw.png'
+		});
+	}
+});
 
 chrome.contextMenus.create({
 	title: 'Copy ( ͡° ͜ʖ ͡°)',

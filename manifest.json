@@ -4,7 +4,6 @@
   "description": "A tool that displays a preview for an image when you hover over its hyperlink.",
   "version": "0.1",
   "browser_action": {
-    "default_popup": "html/popup.html",
     "default_icon": "img/favicon.png"
   },
   "background": {

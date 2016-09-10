@@ -41,7 +41,7 @@ chrome.storage.sync.get({
 });
 
 chrome.runtime.onMessage.addListener(function(req, sender, res) {
-    if (req.enabled) {
+    if (req.enabled !== undefined) {
         enabled = req.enabled;
     }
     if (req.insert) {
