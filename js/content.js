@@ -2,7 +2,7 @@ if (window.location.href === 'http://example.com/') {
     $('body').text('');
     $('body').append(`
         <a style="position: fixed; top: 10px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxsbackground.jpg">image broken</a>
-        <a style="position: fixed; top: 235px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxbackground.jpg">normal image</a>
+        <a style="position: fixed; top: 235px; left: 50vw; transform: translateX(-50%); font-size: 50px" href="https://rohanssrao.github.io/MaterializeCSS/parallaxbackground.jpg?q=1&s=3">normal image</a>
         <input style="position: fixed; top: 335px; left: 50vw; transform: translateX(-50%); font-size: 20px;">
     `);
 }
@@ -118,9 +118,12 @@ function insert(type) {
 
 function addImg() {
     let that = $(this);
-    let href = that.attr('href');
-    let match = /imgur\.com\/(\w{7})$/g.exec(href);
-    if (match) { href = 'https://i.imgur.com/' + match[1] + '.png'; }
+    let hrefOrig = that.attr('href');
+    let href = hrefOrig;
+    let match = /((?:\?|\&)[^=]+\=[^&])+$/.exec(href);
+    if (match) { href = href.replace(match[0], ''); }
+    let match2 = /imgur\.com\/(\w{7})$/g.exec(href);
+    if (match2) { href = 'https://i.imgur.com/' + match2[1] + '.png'; }
 
     if (href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
         if (that.data('preview-added')) { return; }
@@ -131,7 +134,7 @@ function addImg() {
                     border-radius: 3px;
                     width: 99% !important;
                     font-family: Roboto, Arial !important;
-                " value="${href}" readonly></div>`);
+                " value="${hrefOrig}" readonly></div>`);
             imgElemCont.prepend(imgElem).appendTo('body').hide();
             that.mousemove(function(e) {
                 if (enabled) {
