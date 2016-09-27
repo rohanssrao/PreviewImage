@@ -55,7 +55,19 @@ if (window.location !== window.parent.location) {
     }, 500)
 }
 
-$('head').append(`<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+var roboto = false;
+
+$('link').each(function() {
+    if ($(this).attr('href').endsWith('css?family=Roboto')) {
+        roboto = true;
+    }
+});
+
+if (!roboto) {
+    $('head').append(`<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">`);
+}
+
+$('head').append(`
     <style>
         .previewImageImg {
             width: auto !important;
@@ -106,24 +118,26 @@ function lesserOf(a, b) {
 }
 
 function insert(type) {
-    switch(type) {
-        case 'lenny':
-            copy('( ͡° ͜ʖ ͡°)');
-            break;
-        case 'infinity':
-            copy('∞');
-            break;
-    }
+    copy(type);
 }
 
 function addImg() {
     let that = $(this);
     let hrefOrig = that.attr('href');
     let href = hrefOrig;
+    if (!href) { return; }
     let match = /((?:\?|\&)[^=]+\=[^&])+$/.exec(href);
     if (match) { href = href.replace(match[0], ''); }
     let match2 = /imgur\.com\/(\w{7})$/g.exec(href);
     if (match2) { href = 'https://i.imgur.com/' + match2[1] + '.png'; }
+    if (!href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
+        hrefOrig = that.text();
+        href = hrefOrig;
+        match = /((?:\?|\&)[^=]+\=[^&])+$/.exec(href);
+        if (match) { href = href.replace(match[0], ''); }
+        match2 = /imgur\.com\/(\w{7})$/g.exec(href);
+        if (match2) { href = 'https://i.imgur.com/' + match2[1] + '.png'; }
+    }
 
     if (href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
         if (that.data('preview-added')) { return; }

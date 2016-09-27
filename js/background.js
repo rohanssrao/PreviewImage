@@ -27,7 +27,7 @@ chrome.contextMenus.create({
 	contexts: ['editable'],
 	onclick: function() {
 		chrome.tabs.getSelected(null, function(tab) {
-			chrome.tabs.sendMessage(tab.id, {insert: 'lenny'});
+			chrome.tabs.sendMessage(tab.id, {insert: '( ͡° ͜ʖ ͡°)'});
 		});
 	}
 });
@@ -37,7 +37,17 @@ chrome.contextMenus.create({
 	contexts: ['editable'],
 	onclick: function() {
 		chrome.tabs.getSelected(null, function(tab) {
-			chrome.tabs.sendMessage(tab.id, {insert: 'infinity'});
+			chrome.tabs.sendMessage(tab.id, {insert: '∞'});
+		});
+	}
+});
+
+chrome.contextMenus.create({
+	title: 'Copy ♩ _ ♩',
+	contexts: ['editable'],
+	onclick: function() {
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.sendMessage(tab.id, {insert: '♩ _ ♩'});
 		});
 	}
 });
