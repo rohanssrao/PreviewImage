@@ -24,7 +24,7 @@ chrome.browserAction.onClicked.addListener(function() {
 
 chrome.contextMenus.create({
 	title: 'Copy ( ͡° ͜ʖ ͡°)',
-	contexts: ['editable'],
+	contexts: ['all'],
 	onclick: function() {
 		chrome.tabs.getSelected(null, function(tab) {
 			chrome.tabs.sendMessage(tab.id, {insert: '( ͡° ͜ʖ ͡°)'});
@@ -34,7 +34,7 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.create({
 	title: 'Copy ∞',
-	contexts: ['editable'],
+	contexts: ['all'],
 	onclick: function() {
 		chrome.tabs.getSelected(null, function(tab) {
 			chrome.tabs.sendMessage(tab.id, {insert: '∞'});
@@ -44,7 +44,7 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.create({
 	title: 'Copy ♩ _ ♩',
-	contexts: ['editable'],
+	contexts: ['all'],
 	onclick: function() {
 		chrome.tabs.getSelected(null, function(tab) {
 			chrome.tabs.sendMessage(tab.id, {insert: '♩ _ ♩'});

@@ -1,3 +1,14 @@
+$('body').on('mousedown', '[onmousedown]', function() {
+    $(this).attr('href', $(this).attr('data-href'));
+});
+
+$('body').on('mousedown', '.irc_mil', function() {
+    $(this).attr('href', $(this).find('img').attr('src'));
+});
+
+
+// For testing
+
 if (window.location.href === 'http://example.com/') {
     $('body').text('');
     $('body').append(`
@@ -52,7 +63,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
 if (window.location !== window.parent.location) {
     setInterval(function() {
         $('a:not(:has(img))').each(addImg);
-    }, 500)
+    }, 500);
 }
 
 var roboto = false;
@@ -130,7 +141,7 @@ function addImg() {
     if (match) { href = href.replace(match[0], ''); }
     let match2 = /imgur\.com\/(\w{7})$/g.exec(href);
     if (match2) { href = 'https://i.imgur.com/' + match2[1] + '.png'; }
-    if (!href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
+    if (!href.match(/\.(jpe?g|png|gif|tiff)$/i) && !(href.startsWith('http://i.reddituploads.com') || href.startsWith('https://i.reddituploads.com'))) {
         hrefOrig = that.text();
         href = hrefOrig;
         match = /((?:\?|\&)[^=]+\=[^&])+$/.exec(href);
@@ -139,7 +150,7 @@ function addImg() {
         if (match2) { href = 'https://i.imgur.com/' + match2[1] + '.png'; }
     }
 
-    if (href.match(/\.(jpe?g|png|gif|tiff)$/i)) {
+    if (href.match(/\.(jpe?g|png|gif|tiff)$/i) || href.startsWith('http://i.reddituploads.com') || href.startsWith('https://i.reddituploads.com')) {
         if (that.data('preview-added')) { return; }
         that.data('preview-added', true);
         var imgElem = $(`<img class="previewImageImg" src="${href}" id="imgId${imgId}">`);
@@ -152,16 +163,17 @@ function addImg() {
             imgElemCont.prepend(imgElem).appendTo('body').hide();
             that.mousemove(function(e) {
                 if (enabled) {
-                    var x = e.clientX - (imgElemCont.width() / 2);
+                    var x, y;
+                    x = e.clientX - (imgElemCont.width() / 2);
                     if (e.clientY < imgElemCont.height() + 25) {
-                        var y = e.clientY + 25;
+                        y = e.clientY + 25;
                         if (e.clientY + imgElemCont.height() + 25 > $(window).height()) {
                             imgElem[0].style.setProperty('max-height', $(window).height() - e.clientY - 75 + 'px', 'important');
                         } else {
                             // imgElem[0].style.setProperty('max-height');                                
                         }
                     } else {
-                        var y = e.clientY - imgElemCont.height() - 25;
+                        y = e.clientY - imgElemCont.height() - 25;
                     }
                     imgElemCont.css('top', y + 'px');
                     imgElemCont.css('left', x + 'px');
@@ -200,11 +212,12 @@ function addImg() {
                 ">Image link broken</div>`);
             that.mousemove(function(e) {
                 if (enabled) {
-                    var x = e.clientX - (imgElem.width() / 2);
+                    var x, y;
+                    x = e.clientX - (imgElem.width() / 2);
                     if (e.clientY < imgElem.height() + 25) {
-                        var y = e.clientY + 20;
+                        y = e.clientY + 20;
                     } else {
-                        var y = e.clientY - imgElem.height() - 30;
+                        y = e.clientY - imgElem.height() - 30;
                     }
                     imgElem.css('top', y + 'px');
                     imgElem.css('left', x + 'px');
